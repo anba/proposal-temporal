@@ -7,11 +7,11 @@ info: |
     YearMonthFromFields ( calendar, fields [ , options ] )
 
     5. Let yearMonth be ? Invoke(calendar, "yearMonthFromFields", « fields, options »).
-includes: [temporalHelpers.js]
+includes: [deepEqual.js, temporalHelpers.js]
 features: [Temporal]
 ---*/
 
-const options = {};
+const options = { overflow: "constrain" };
 class CustomCalendar extends Temporal.Calendar {
   constructor() {
     super("iso8601");
@@ -20,6 +20,7 @@ class CustomCalendar extends Temporal.Calendar {
     assert.sameValue(args.length, 2, "args.length");
     assert.sameValue(typeof args[0], "object", "args[0]");
     assert.notSameValue(args[1], options, "args[1]");
+    assert.deepEqual(args[1], options, "args[1]");
     return super.yearMonthFromFields(...args);
   }
 }
